@@ -17,6 +17,8 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.billAmountTextField.keyboardType = .decimalPad
     }
 
     @IBAction func onTap(_ sender: Any) {
