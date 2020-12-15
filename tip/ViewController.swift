@@ -18,6 +18,9 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let defaults = UserDefaults.standard
+        tipControl.selectedSegmentIndex = defaults.integer(forKey: "defaultTipIdx")
+        
         self.billAmountTextField.keyboardType = .decimalPad
     }
 

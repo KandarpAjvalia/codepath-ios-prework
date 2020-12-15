@@ -9,26 +9,22 @@ import UIKit
 
 class SettingsViewController: UIViewController {
 
+    @IBOutlet weak var tipControl: UISegmentedControl!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        let defaults = UserDefaults.standard
+        tipControl.selectedSegmentIndex = defaults.integer(forKey: "defaultTipIdx")
     }
-    
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        print("view will appear")
+    @IBAction func setDefaultTip(_ sender: Any) {
+        
+        let selectedTipIdx = tipControl.selectedSegmentIndex
+        
+        let defaults = UserDefaults.standard
+        defaults.set(selectedTipIdx, forKey: "defaultTipIdx")
+        
     }
 
 }
