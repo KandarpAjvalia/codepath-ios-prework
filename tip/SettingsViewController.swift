@@ -9,13 +9,22 @@ import UIKit
 
 class SettingsViewController: UIViewController {
 
+    @IBOutlet var settingsView: UIView!
     @IBOutlet weak var tipControl: UISegmentedControl!
-    
+    @IBOutlet weak var colorSwitch: UISwitch!
+
+    let defaults = UserDefaults.standard
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let defaults = UserDefaults.standard
         tipControl.selectedSegmentIndex = defaults.integer(forKey: "defaultTipIdx")
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        colorSwitch.isOn = defaults.bool(forKey: "isDarkMode")
+        setViewColors()
     }
 
     @IBAction func setDefaultTip(_ sender: Any) {
@@ -27,4 +36,24 @@ class SettingsViewController: UIViewController {
         
     }
 
+    @IBAction func colorSwitchChange(_ sender: Any) {
+        defaults.set(colorSwitch.isOn, forKey: "isDarkMode")
+        setViewColors()
+    }
+    
+    func setViewColors() -> Void {
+        
+        let navBar = self.navigationController?.navigationBar
+        let isDarkMode = defaults.bool(forKey: "isDarkMode")
+        
+        if isDarkMode {
+            navBar?.barTintColor = .black
+            navBar?.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+            settingsView.overrideUserInterfaceStyle = .dark
+        } else {
+            navBar?.barTintColor = .white
+            navBar?.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
+            settingsView.overrideUserInterfaceStyle = .light
+        }
+    }
 }

@@ -26,6 +26,10 @@ class ViewController: UIViewController {
         self.billAmountTextField.keyboardType = .decimalPad
 
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setViewColors()
+    }
     
     @IBAction func onTap(_ sender: Any) {
         view.endEditing(true)
@@ -60,6 +64,22 @@ class ViewController: UIViewController {
         }
                 
         return String(defaults.double(forKey: "defaultBill"))
+    }
+    
+    func setViewColors() -> Void {
+        
+        let navBar = self.navigationController?.navigationBar
+        let isDarkMode = defaults.bool(forKey: "isDarkMode")
+        
+        if isDarkMode {
+            navBar?.barTintColor = .black
+            navBar?.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+            tipView.overrideUserInterfaceStyle = .dark
+        } else {
+            navBar?.barTintColor = .white
+            navBar?.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
+            tipView.overrideUserInterfaceStyle = .light
+        }
     }
 }
 
