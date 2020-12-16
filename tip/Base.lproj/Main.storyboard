@@ -138,6 +138,7 @@
                         <outlet property="billAmountTextField" destination="uXk-Nz-LOE" id="HRn-oF-6Dd"/>
                         <outlet property="tipControl" destination="Dc9-GN-0bP" id="rBz-gy-pX6"/>
                         <outlet property="tipPercentageLabel" destination="fR1-jg-6aG" id="xJB-ns-DbS"/>
+                        <outlet property="tipView" destination="8bC-Xf-vdC" id="fwQ-pX-Ts9"/>
                         <outlet property="totalLabel" destination="bVW-6J-nrv" id="KfK-2k-fwG"/>
                     </connections>
                 </viewController>
