@@ -14,6 +14,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var tipPercentageLabel: UILabel!
     @IBOutlet weak var totalLabel: UILabel!
     @IBOutlet var tipView: UIView!
+    @IBOutlet weak var numSplitLabel: UILabel!
     
     let defaults = UserDefaults.standard
     
@@ -44,13 +45,27 @@ class ViewController: UIViewController {
         let bill = Double(billAmountTextField.text!) ?? 0
         defaults.set(bill, forKey: "defaultBill")
 
+        let numSplit = Double(numSplitLabel.text ?? "1")!
+
         let tipPercentages = [0.15, 0.18, 0.2]
         
         let tip = bill * tipPercentages[tipControl.selectedSegmentIndex]
-        let total = bill + tip
+        let total = (bill + tip) / numSplit
         
         tipPercentageLabel.text = String(format: "$%.2f", tip)
         totalLabel.text = String(format: "$%.2f", total)
+    }
+    
+    @IBAction func subtractSplit(_ sender: Any) {
+        let newVal = Int(numSplitLabel.text ?? "1")! - 1
+        let labelUpdateVal = newVal >= 1 ? newVal : 1
+        numSplitLabel.text = String(labelUpdateVal)
+        calculateTipHelper()
+    }
+    
+    @IBAction func addSplit(_ sender: Any) {
+        numSplitLabel.text = String(Int(numSplitLabel.text ?? "1")! + 1)
+        calculateTipHelper()
     }
     
     func getDefaultBill() -> String {
