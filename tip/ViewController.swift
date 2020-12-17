@@ -13,8 +13,9 @@ class ViewController: UIViewController {
     @IBOutlet weak var billAmountTextField: UITextField!
     @IBOutlet weak var tipPercentageLabel: UILabel!
     @IBOutlet weak var totalLabel: UILabel!
-    @IBOutlet var tipView: UIView!
     @IBOutlet weak var numSplitLabel: UILabel!
+    @IBOutlet var tipView: UIView!
+    @IBOutlet weak var totalView: UIView!
     
     let defaults = UserDefaults.standard
     
@@ -24,8 +25,6 @@ class ViewController: UIViewController {
         billAmountTextField.text = getDefaultBill()
         tipControl.selectedSegmentIndex = defaults.integer(forKey: "defaultTipIdx")
         calculateTipHelper()
-        billAmountTextField.keyboardType = .decimalPad
-
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -88,6 +87,11 @@ class ViewController: UIViewController {
         let navBar = navigationController?.navigationBar
         let isDarkMode = defaults.bool(forKey: "isDarkMode")
         
+        totalView.layer.shadowOpacity = 0.3
+        totalView.layer.shadowOffset = CGSize(width: 1, height: 1)
+        totalView.layer.shadowRadius = 15.0
+        totalView.layer.shadowColor = UIColor.darkGray.cgColor
+
         if isDarkMode {
             navBar?.barTintColor = .black
             navBar?.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
@@ -97,14 +101,20 @@ class ViewController: UIViewController {
             navBar?.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
             tipView.overrideUserInterfaceStyle = .light
         }
+        
+        UISegmentedControl.appearance().setTitleTextAttributes( [NSAttributedString.Key.foregroundColor: UIColor.white], for: .normal)
+        UISegmentedControl.appearance().setTitleTextAttributes( [NSAttributedString.Key.foregroundColor: UIColor(red: 129/255, green: 17/255, blue: 246/255, alpha: 1)], for: .selected)
+        
+        
     }
     
     func formatBill(total: Double) -> String {
         let formatter = NumberFormatter()
-        formatter.numberStyle = .currency
+        formatter.numberStyle = .decimal
+        formatter.minimumFractionDigits = 2
+        formatter.maximumFractionDigits = 2
         let formattedBill = formatter.string(from: total as NSNumber) ?? ""
         
         return formattedBill
     }
 }
-
