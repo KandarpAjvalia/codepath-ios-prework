@@ -43,7 +43,7 @@ class SettingsViewController: UIViewController {
     
     func setViewColors() -> Void {
         
-        let navBar = self.navigationController?.navigationBar
+        let navBar = navigationController?.navigationBar
         let isDarkMode = defaults.bool(forKey: "isDarkMode")
         
         if isDarkMode {

@@ -21,14 +21,16 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        billAmountTextField.text = self.getDefaultBill()
+        billAmountTextField.text = getDefaultBill()
         tipControl.selectedSegmentIndex = defaults.integer(forKey: "defaultTipIdx")
-        self.calculateTipHelper()
-        self.billAmountTextField.keyboardType = .decimalPad
+        calculateTipHelper()
+        billAmountTextField.keyboardType = .decimalPad
 
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        billAmountTextField.becomeFirstResponder()
         setViewColors()
     }
     
@@ -38,7 +40,7 @@ class ViewController: UIViewController {
     
     @IBAction func calculateTip(_ sender: Any) {
         defaults.set(Date(), forKey: "defaultBillTime")
-        self.calculateTipHelper()
+        calculateTipHelper()
     }
     
     func calculateTipHelper() -> Void {
@@ -52,8 +54,8 @@ class ViewController: UIViewController {
         let tip = bill * tipPercentages[tipControl.selectedSegmentIndex]
         let total = (bill + tip) / numSplit
         
-        tipPercentageLabel.text = String(format: "$%.2f", tip)
-        totalLabel.text = String(format: "$%.2f", total)
+        tipPercentageLabel.text = formatBill(total: tip)
+        totalLabel.text = formatBill(total: total)
     }
     
     @IBAction func subtractSplit(_ sender: Any) {
@@ -83,7 +85,7 @@ class ViewController: UIViewController {
     
     func setViewColors() -> Void {
         
-        let navBar = self.navigationController?.navigationBar
+        let navBar = navigationController?.navigationBar
         let isDarkMode = defaults.bool(forKey: "isDarkMode")
         
         if isDarkMode {
@@ -95,6 +97,14 @@ class ViewController: UIViewController {
             navBar?.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
             tipView.overrideUserInterfaceStyle = .light
         }
+    }
+    
+    func formatBill(total: Double) -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        let formattedBill = formatter.string(from: total as NSNumber) ?? ""
+        
+        return formattedBill
     }
 }
 
